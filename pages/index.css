@@ -1,0 +1,13 @@
+/* 整体页面背景色，采用类似 DataTable 组件包装容器的灰色系，营造统一的沉稳视觉风格 */
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    font-family: Arial, sans-serif;
+    /* 设置通用字体，保持页面文字风格统一 */
+}
+
+/* App 组件最外层容器的样式，添加一些内边距等，使其内部元素布局更合理 */
+.app-container {
+    padding: 24px;
+}

@@ -27,7 +27,7 @@ const DataTable = () => {
         .map(item => ({
           title: item.properties.title.rich_text[0].text.content || '',
           url: item.properties.url.title[0].text.content || '',
-          tag: item.properties.tag.select.name || '',
+          tag: item.properties.tag?.select?.name || '',
         }));
 
       setAllData(filteredResults);

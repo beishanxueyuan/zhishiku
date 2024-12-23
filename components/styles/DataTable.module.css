@@ -1,157 +1,170 @@
-/* 整体表格包装容器样式 */
 .dataTableWrapper {
-    padding: 1rem; /* 适当padding */
-    background-color: #ffffff; /* 白色背景 */
-    border-radius: 8px;  /* 稍微增加圆角 */
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* 更轻的阴影 */
-    color: #333333; /* 深灰色文字 */
-    font-family: 'Arial', sans-serif; /* 更通用的字体 */
-}
-
-/* 搜索框所在头部区域样式 */
-.searchHeader {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .searchContainer {
+    margin-bottom: 20px;
+  }
+  
+  .searchWrapper {
+    position: relative;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .searchInput {
+    width: 100%;
+    padding: 12px 20px;
+    padding-right: 40px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    background: #f8fafc;
+  }
+  
+  .searchInput:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+  
+  .searchIcon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+  }
+  
+  .tableContainer {
+    overflow-x: auto;
+    margin: 20px 0;
+  }
+  
+  .dataTable {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+  .tableHeaderCell {
+    background: #f8fafc;
+    color: #1e293b;
+    font-weight: 600;
+    text-align: left;
+    padding: 16px;
+    font-size: 14px;
+    border-bottom: 2px solid #e2e8f0;
+  }
+  
+  .tableCell {
+    padding: 16px;
+    font-size: 14px;
+    color: #334155;
+    border-bottom: 1px solid #e2e8f0;
+    line-height: 1.5;
+  }
+  
+  .tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: #f0f9ff;
+    color: #0369a1;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid #bae6fd;
+  }
+  
+  .link {
+    color: #2563eb;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .link:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+  }
+  
+  .highlight {
+    background: #fef9c3;
+    padding: 2px 0;
+  }
+  
+  .paginationContainer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem; /* 适当margin */
-}
-
-/* 搜索输入框样式 */
-.searchInput {
-    background-color: #fafafa; /* 更浅的背景色 */
-    border: 1px solid #e0e0e0; /* 更细的边框 */
-    color: #333333;
-    padding: 0.5rem 1rem; /* 适当padding */
-    border-radius: 4px;
-    width: 20rem; /* 合理宽度 */
-}
-
-/* 整个表格样式 */
-.dataTable {
-    background-color: #ffffff; /* 白色背景 */
-    width: 100%;
-    border-collapse: collapse;
-    border: 1px solid #e0e0e0; /* 表格边框 */
-    border-radius: 8px;
-    overflow: hidden; /* 处理圆角 */
-}
-
-/* 表头单元格样式 */
-.tableHeaderCell {
-    background-color: #f5f5f5; /* 浅灰色背景 */
-    color: #555555; /* 稍浅的文字 */
-    border-bottom: 1px solid #e0e0e0; /* 更细的边框 */
-    padding: 0.5rem; /* 适当padding */
-    font-weight: 600; /* 更粗的字体 */
-    text-align: left; /* 左对齐 */
-}
-
-/* 表体单元格样式 */
-.tableCell {
-    border-bottom: 1px solid #e5e5e5; /* 更细的边框 */
-    color: #333333;
-    padding: 0.5rem; /* 适当padding */
-    text-align: left;
-}
-
-/* 鼠标悬停行的样式 */
-.tableCell:hover {
-    background-color: #fafafa; /* 更浅的悬停背景 */
-}
-
-/* 分页容器样式 */
-.paginationContainer {
-    margin-top: 1rem; /* 适当margin */
-    text-align: right;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e2e8f0;
+  }
+  
+  .pageInfo {
+    color: #64748b;
+    font-size: 14px;
+  }
+  
+  .paginationControls {
     display: flex;
+    gap: 8px;
     align-items: center;
-    justify-content: flex-end; /* 右对齐 */
-}
-
-/* 分页按钮通用样式 */
-.paginationButton {
-    background-color: #007bff; /* 标准蓝色 */
-    color: #ffffff;
-    border: none;
-    padding: 0.5rem 1rem; /* 适当padding */
-    border-radius: 4px;
-    margin-left: 0.5rem; /* 适当margin */
+  }
+  
+  .paginationButton {
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: white;
+    color: #1e293b;
+    font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.2s;
-    font-size: 0.9rem;
-}
-
-/* 分页按钮鼠标悬停样式 */
-.paginationButton:hover {
-    background-color: #0056b3;
-}
-
-/* 分页信息文本样式 */
-.pageInfo {
-    margin-right: 0.5rem; /* 适当margin */
-    font-size: 0.9rem;
-    color: #777777;
-}
-
-/* 链接样式 */
-.link {
-    color: #007bff;
-    text-decoration: none;
-    transition: color 0.2s;
-}
-
-/* 链接鼠标悬停样式 */
-.link:hover {
-    color: #0056b3; /* 加深颜色 */
-    text-decoration: underline; /* 添加下划线 */
-}
-
-/* 标签样式 */
-.tag {
-    background-color: #e0f7fa; /* 淡蓝色背景 */
-    color: #333333;
-    padding: 0.2rem 0.5rem; /* 适当padding */
-    border-radius: 4px; /* 更小的圆角 */
-    font-size: 0.8rem;
-    display: inline-block; /* 支持水平排列 */
-}
-
-/* 错误提示框样式 */
-.errorAlert {
-    margin: 1rem; /* 适当margin */
-    padding: 0.5rem; /* 适当padding */
-    border: 1px solid #f44336; /* 红色边框 */
-    color: #f44336;
-    border-radius: 4px; /* 添加圆角 */
-    background-color: #ffebee; /* 浅红色背景 */
-}
-
-/* 搜索结果中高亮文本样式 */
-.highlight {
-    background-color: #b3e5fc; /* 更淡的背景 */
-    color: #333333;
-    padding: 0 0.2rem; /* 适当padding */
-    border-radius: 2px;
-    font-weight: bold;
-}
-
-/* 普通单元格内文本样式 */
-.cellText {
-    white-space: pre-wrap;
-    word-break: break-word;
-}
-
-/* 分页按钮禁用样式 */
-.paginationButton:disabled {
+    transition: all 0.2s ease;
+  }
+  
+  .paginationButton:disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
     cursor: not-allowed;
-    opacity: 0.6;
+  }
+  
+  .paginationButton:not(:disabled):hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+  }
+  
+  .pageSelector {
+    padding: 8px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    background: white;
+    color: #1e293b;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .pageSelector:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  }
+
+  /* 加载提示样式 */
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
 }
 
-/* 分页选择器样式 */
-.pageSelector {
-    padding: 0.5rem;
-    margin-right: 0.5rem;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
-    outline: none;
+.loadingText {
+  font-size: 16px;
+  color: #555;
+  font-weight: bold;
 }

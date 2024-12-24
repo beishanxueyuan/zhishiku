@@ -185,7 +185,7 @@ const HomePage = () => {
         <MenuToggleButton onClick={toggleMenu}>
           {isMenuExpanded ? '←' : '→'}
         </MenuToggleButton>
-
+        <title>北山学院知识库</title>
 
         <MenuItem 
           $active={activeMenu === 'home'}

@@ -229,7 +229,7 @@ const HomePage = () => {
             </Logo>
             <HeaderActions>
               {/* 新增的三个链接 */}
-              <HeaderLink href="https://www.beishanxueyuan.com/" title="关于我们">
+              <HeaderLink href="https://www.beishanxueyuan.com/" target="_blank" title="关于我们">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="12" cy="12" r="10"></circle>
                   <line x1="12" y1="16" x2="12" y2="12"></line>
@@ -238,7 +238,7 @@ const HomePage = () => {
                 <HoverText>关于我们</HoverText>
               </HeaderLink>
               
-              <HeaderLink href="https://x.com/chain00x" title="X">
+              <HeaderLink href="https://x.com/chain00x" target="_blank" title="X">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H1.474l8.6-9.83L0 1.154h7.594l5.243 6.932z"/>
                 </svg>

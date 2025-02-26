@@ -9,6 +9,7 @@ const DataTable = () => {
   const [searchText, setSearchText] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [total, setTotal] = useState(0); // 新增 total 状态
   const pageSize = 10;
 
   const [formData, setFormData] = useState({ title: '', url: '', tags: '' });
@@ -38,6 +39,7 @@ const DataTable = () => {
           tag: item.Tags || '-',
         }))
       );
+      setTotal(results.pagination.total); // 保存 total 到状态
       setTotalPages(Math.ceil(results.pagination.total / pageSize));
       setCurrentPage(results.pagination.page);
     } catch (err) {
@@ -250,8 +252,8 @@ const DataTable = () => {
       <div className={styles.paginationContainer}>
         <span className={styles.pageInfo}>
           显示 {(currentPage - 1) * pageSize + 1} -{' '}
-          {Math.min(currentPage * pageSize, totalPages * pageSize)} 条，
-          共 {totalPages * pageSize} 条数据
+          {Math.min(currentPage * pageSize, total)} 条， {/* 使用 total 状态 */}
+          共 {total} 条数据
         </span>
         <div className={styles.paginationControls}>
           <button

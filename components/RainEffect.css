@@ -1,0 +1,7 @@
+/* RainEffect.css */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999; /* 确保在最上层 */
+  }

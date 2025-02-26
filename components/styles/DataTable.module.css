@@ -1,170 +1,239 @@
+/* DataTable.module.css */
 .dataTableWrapper {
-    background: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .searchContainer {
-    margin-bottom: 20px;
-  }
-  
-  .searchWrapper {
-    position: relative;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-  
-  .searchInput {
-    width: 100%;
-    padding: 12px 20px;
-    padding-right: 40px;
-    border: 2px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    background: #f8fafc;
-  }
-  
-  .searchInput:focus {
-    outline: none;
-    border-color: #3b82f6;
-    background: white;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  }
-  
-  .searchIcon {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #64748b;
-  }
-  
-  .tableContainer {
-    overflow-x: auto;
-    margin: 20px 0;
-  }
-  
-  .dataTable {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-  }
-  
-  .tableHeaderCell {
-    background: #f8fafc;
-    color: #1e293b;
-    font-weight: 600;
-    text-align: left;
-    padding: 16px;
-    font-size: 14px;
-    border-bottom: 2px solid #e2e8f0;
-  }
-  
-  .tableCell {
-    padding: 16px;
-    font-size: 14px;
-    color: #334155;
-    border-bottom: 1px solid #e2e8f0;
-    line-height: 1.5;
-  }
-  
-  .tag {
-    display: inline-block;
-    padding: 4px 12px;
-    background: #f0f9ff;
-    color: #0369a1;
-    border-radius: 16px;
-    font-size: 12px;
-    font-weight: 500;
-    border: 1px solid #bae6fd;
-  }
-  
-  .link {
-    color: #2563eb;
-    text-decoration: none;
-    transition: color 0.2s ease;
-  }
-  
-  .link:hover {
-    color: #1d4ed8;
-    text-decoration: underline;
-  }
-  
-  .highlight {
-    background: #fef9c3;
-    padding: 2px 0;
-  }
-  
-  .paginationContainer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #e2e8f0;
-  }
-  
-  .pageInfo {
-    color: #64748b;
-    font-size: 14px;
-  }
-  
-  .paginationControls {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  
-  .paginationButton {
-    padding: 8px 16px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    background: white;
-    color: #1e293b;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-  
-  .paginationButton:disabled {
-    background: #f1f5f9;
-    color: #94a3b8;
-    cursor: not-allowed;
-  }
-  
-  .paginationButton:not(:disabled):hover {
-    background: #f8fafc;
-    border-color: #cbd5e1;
-  }
-  
-  .pageSelector {
-    padding: 8px 12px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    background: white;
-    color: #1e293b;
-    font-size: 14px;
-    cursor: pointer;
-  }
-  
-  .pageSelector:focus {
-    outline: none;
-    border-color: #3b82f6;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-  }
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-  /* 加载提示样式 */
-.loadingContainer {
+/* 表单样式 */
+.formContainer {
+  margin-bottom: 24px;
+}
+
+.addForm {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.formInput {
+  padding: 10px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  flex: 1;
+  min-width: 200px;
+  transition: border-color 0.2s;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.submitButton {
+  padding: 10px 20px;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.submitButton:hover {
+  background: #2563eb;
+}
+
+.successMessage {
+  color: #16a34a;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.errorMessage {
+  color: #dc2626;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+/* 搜索框样式 */
+.searchContainer {
+  margin-bottom: 24px;
+}
+
+.searchWrapper {
+  position: relative;
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fafafa;
+  transition: all 0.2s;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.searchIcon {
+  display: none; /* 移除输入框内的图标，因为按钮已有图标 */
+}
+
+.searchButton {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #e5e7eb;
+  border-radius: 50%;
+  background: #fff;
+  color: #6b7280;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 50px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.searchButton:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+  color: #3b82f6;
+  transform: scale(1.05);
+}
+
+/* 表格样式 */
+.tableContainer {
+  overflow-x: auto;
+}
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHeaderCell {
+  background: #f9fafb;
+  color: #1f2937;
+  font-weight: 600;
+  padding: 12px 16px;
+  font-size: 14px;
+  text-align: left;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.tableCell {
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #374151;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.noDataCell {
+  text-align: center;
+  padding: 20px;
+  color: #6b7280;
+}
+
+.link {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: #2563eb;
+}
+
+.highlight {
+  background: #fef08a;
+  padding: 2px 4px;
+  border-radius: 4px;
+}
+
+.tagBox {
+  display: inline-block;
+  padding: 4px 8px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #f9fafb;
+  color: #374151;
+  font-size: 13px;
+}
+
+/* 分页样式 */
+.paginationContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.pageInfo {
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.paginationControls {
+  display: flex;
+  gap: 8px;
+}
+
+.paginationButton,
+.pageSelector {
+  padding: 8px 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  background: #fff;
+  color: #1f2937;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.paginationButton:hover:not(:disabled),
+.pageSelector:hover {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.paginationButton:disabled {
+  background: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.pageSelector:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* 加载提示样式 */
+.loadingContainer {
+  text-align: center;
+  padding: 20px;
 }
 
 .loadingText {
   font-size: 16px;
-  color: #555;
-  font-weight: bold;
+  color: #6b7280;
 }

@@ -6,6 +6,9 @@ const supabaseUrl = 'https://eqxshgzzcasyunvmxxxt.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxeHNoZ3p6Y2FzeXVudm14eHh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1NjMzMzYsImV4cCI6MjA1NjEzOTMzNn0.FJHaZIkvErVQy96gvjGzYi-Umn4W-yy7wVY1cMymjso';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// 从环境变量中获取密码（推荐使用 .env 文件）
+const EDIT_PASSWORD = "Chain00x@0512" // 默认值仅用于测试
+
 export default async function handler(req, res) {
   if (req.method !== 'PUT') {
     res.setHeader('Allow', ['PUT']);
@@ -13,7 +16,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { id, title, url, tags } = req.body;
+    const { id, title, url, tags, password } = req.body;
 
     // 参数校验
     if (!id) {
@@ -22,21 +25,29 @@ export default async function handler(req, res) {
     if (!title && !url && !tags) {
       return res.status(400).json({ error: 'At least one field (title, url, or tags) must be provided to update.' });
     }
+    if (!password) {
+      return res.status(400).json({ error: 'Password is required for editing.' });
+    }
 
-    // 构建更新数据对象，只包含提供的字段
+    // 验证密码
+    if (password !== EDIT_PASSWORD) {
+      return res.status(403).json({ error: 'Incorrect password. Editing is not allowed.' });
+    }
+
+    // 构建更新数据对象
     const updateData = {};
     if (title) updateData.Title = title;
     if (url) updateData.URL = url;
-    if (tags) updateData.Tags = tags;
-    updateData.updated_at = new Date().toISOString(); // 添加更新时间戳
+    if (tags) updateData.Tags = Array.isArray(tags) ? tags : tags.split(',').map(tag => tag.trim());
+    updateData.updated_at = new Date().toISOString();
 
     // 更新 Supabase 中的记录
     const { data, error } = await supabase
       .from('article')
       .update(updateData)
-      .eq('id', id) // 根据 id 匹配
+      .eq('id', id)
       .select()
-      .single(); // 返回单条记录
+      .single();
 
     if (error) {
       if (error.code === 'PGRST116') {
@@ -46,7 +57,6 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: `Failed to update article: ${error.message}` });
     }
 
-    // 返回成功响应
     return res.status(200).json({
       message: 'Article updated successfully',
       article: {
@@ -55,8 +65,8 @@ export default async function handler(req, res) {
         url: data.URL,
         tags: data.Tags,
         created_at: data.created_at,
-        updated_at: data.updated_at
-      }
+        updated_at: data.updated_at,
+      },
     });
   } catch (err) {
     console.error('Unexpected error:', err);

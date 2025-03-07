@@ -12,7 +12,7 @@ const DataTable = () => {
   const [total, setTotal] = useState(0);
   const pageSize = 10;
 
-  const [formData, setFormData] = useState({ id: '', title: '', url: '', tags: '' });
+  const [formData, setFormData] = useState({ id: '', title: '', url: '', tags: '', password: '' }); // 添加 password
   const [submissionStatus, setSubmissionStatus] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -57,7 +57,7 @@ const DataTable = () => {
       if (!response.ok) throw new Error('Failed to add article');
       const result = await response.json();
       setSubmissionStatus({ type: 'success', message: result.message });
-      setFormData({ id: '', title: '', url: '', tags: '' });
+      setFormData({ id: '', title: '', url: '', tags: '', password: '' });
       fetchData(currentPage, searchText);
     } catch (err) {
       setSubmissionStatus({ type: 'error', message: err.message });
@@ -72,10 +72,13 @@ const DataTable = () => {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) throw new Error('Failed to update article');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to update article');
+      }
       const result = await response.json();
       setSubmissionStatus({ type: 'success', message: result.message });
-      setFormData({ id: '', title: '', url: '', tags: '' });
+      setFormData({ id: '', title: '', url: '', tags: '', password: '' });
       setIsEditing(false);
       fetchData(currentPage, searchText);
     } catch (err) {
@@ -125,12 +128,13 @@ const DataTable = () => {
       title: record.title,
       url: record.url,
       tags: record.tag,
+      password: '', // 重置密码
     });
   };
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setFormData({ id: '', title: '', url: '', tags: '' });
+    setFormData({ id: '', title: '', url: '', tags: '', password: '' });
     setSubmissionStatus(null);
   };
 
@@ -175,6 +179,17 @@ const DataTable = () => {
             className={styles.formInput}
             required
           />
+          {isEditing && (
+            <input
+              type="password"
+              name="password"
+              placeholder="请输入编辑密码"
+              value={formData.password}
+              onChange={handleInputChange}
+              className={styles.formInput}
+              required
+            />
+          )}
           <button type="submit" className={styles.submitButton}>
             {isEditing ? '保存修改' : '添加'}
           </button>

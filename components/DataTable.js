@@ -9,24 +9,20 @@ const DataTable = () => {
   const [searchText, setSearchText] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [total, setTotal] = useState(0); // 新增 total 状态
+  const [total, setTotal] = useState(0);
   const pageSize = 10;
 
-  const [formData, setFormData] = useState({ title: '', url: '', tags: '' });
+  const [formData, setFormData] = useState({ id: '', title: '', url: '', tags: '' });
   const [submissionStatus, setSubmissionStatus] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
-  // 数据获取逻辑
   const fetchData = useCallback(async (page, search) => {
     setLoading(true);
     try {
       const response = await fetch('/api/article/list', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          page,
-          pageSize,
-          searchText: search,
-        }),
+        body: JSON.stringify({ page, pageSize, searchText: search }),
       });
 
       if (!response.ok) throw new Error('Network Error');
@@ -34,12 +30,13 @@ const DataTable = () => {
 
       setData(
         results.data.map((item) => ({
+          id: item.id,
           title: item.Title || '',
           url: item.URL || '',
-          tag: item.Tags || '-',
+          tag: Array.isArray(item.Tags) ? item.Tags.join(', ') : item.Tags || '-',
         }))
       );
-      setTotal(results.pagination.total); // 保存 total 到状态
+      setTotal(results.pagination.total);
       setTotalPages(Math.ceil(results.pagination.total / pageSize));
       setCurrentPage(results.pagination.page);
     } catch (err) {
@@ -49,7 +46,6 @@ const DataTable = () => {
     }
   }, [pageSize]);
 
-  // 插入数据逻辑
   const addArticle = async () => {
     try {
       const response = await fetch('/api/article/add', {
@@ -61,44 +57,60 @@ const DataTable = () => {
       if (!response.ok) throw new Error('Failed to add article');
       const result = await response.json();
       setSubmissionStatus({ type: 'success', message: result.message });
-
-      setFormData({ title: '', url: '', tags: '' });
+      setFormData({ id: '', title: '', url: '', tags: '' });
       fetchData(currentPage, searchText);
     } catch (err) {
       setSubmissionStatus({ type: 'error', message: err.message });
     }
   };
 
-  // 初始化加载数据（无搜索条件）
+  const updateArticle = async () => {
+    try {
+      const response = await fetch('/api/article/update', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) throw new Error('Failed to update article');
+      const result = await response.json();
+      setSubmissionStatus({ type: 'success', message: result.message });
+      setFormData({ id: '', title: '', url: '', tags: '' });
+      setIsEditing(false);
+      fetchData(currentPage, searchText);
+    } catch (err) {
+      setSubmissionStatus({ type: 'error', message: err.message });
+    }
+  };
+
   useEffect(() => {
     fetchData(1, '');
   }, [fetchData]);
 
-  // 分页切换逻辑
   const handlePageChange = useCallback((newPage) => {
     setCurrentPage(newPage);
     fetchData(newPage, searchText);
   }, [fetchData, searchText]);
 
-  // 处理表单输入变化
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // 处理表单提交
   const handleSubmit = (e) => {
     e.preventDefault();
-    addArticle();
+    if (isEditing) {
+      updateArticle();
+    } else {
+      addArticle();
+    }
   };
 
-  // 处理搜索
   const handleSearch = () => {
-    setCurrentPage(1); // 重置到第一页
+    setCurrentPage(1);
     fetchData(1, searchText);
   };
 
-  // 处理输入框按键事件（回车触发搜索）
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -106,22 +118,34 @@ const DataTable = () => {
     }
   };
 
-  // 高亮关键词的辅助函数
+  const handleEdit = (record) => {
+    setIsEditing(true);
+    setFormData({
+      id: record.id,
+      title: record.title,
+      url: record.url,
+      tags: record.tag,
+    });
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setFormData({ id: '', title: '', url: '', tags: '' });
+    setSubmissionStatus(null);
+  };
+
   const highlightText = (text, search) => {
     if (!search || !text) return text;
     const regex = new RegExp(`(${search})`, 'gi');
     return text.split(regex).map((part, index) =>
       regex.test(part) ? (
         <span key={index} className={styles.highlight}>{part}</span>
-      ) : (
-        part
-      )
+      ) : part
     );
   };
 
   return (
     <div className={styles.dataTableWrapper}>
-      {/* 添加文章表单 */}
       <div className={styles.formContainer}>
         <form onSubmit={handleSubmit} className={styles.addForm}>
           <input
@@ -152,8 +176,17 @@ const DataTable = () => {
             required
           />
           <button type="submit" className={styles.submitButton}>
-            添加
+            {isEditing ? '保存修改' : '添加'}
           </button>
+          {isEditing && (
+            <button
+              type="button"
+              className={styles.cancelButton}
+              onClick={handleCancelEdit}
+            >
+              取消
+            </button>
+          )}
         </form>
         {submissionStatus && (
           <div
@@ -168,13 +201,12 @@ const DataTable = () => {
         )}
       </div>
 
-      {/* 搜索框和按钮 */}
       <div className={styles.searchContainer}>
         <div className={styles.searchWrapper}>
           <input
             type="text"
             className={styles.searchInput}
-            placeholder="输入关键词后点击搜索或按回车..."
+            placeholder="搜索标题或标签..."
             value={searchText}
             onChange={(e) => setSearchText(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -185,21 +217,18 @@ const DataTable = () => {
         </div>
       </div>
 
-      {/* 加载中的提示 */}
       {loading && (
         <div className={styles.loadingContainer}>
-          <span className={styles.loadingText}>数据加载中...</span>
+          <span className={styles.loadingText}>加载中...</span>
         </div>
       )}
 
-      {/* 错误提示 */}
       {error && (
         <div className={styles.errorContainer}>
           <span className={styles.errorText}>加载失败：{error}</span>
         </div>
       )}
 
-      {/* 表格内容 */}
       {!loading && !error && (
         <div className={styles.tableContainer}>
           <table className={styles.dataTable}>
@@ -208,6 +237,7 @@ const DataTable = () => {
                 <th className={styles.tableHeaderCell}>标题</th>
                 <th className={styles.tableHeaderCell}>链接</th>
                 <th className={styles.tableHeaderCell}>标签</th>
+                <th className={styles.tableHeaderCell}>操作</th>
               </tr>
             </thead>
             <tbody>
@@ -234,11 +264,19 @@ const DataTable = () => {
                         {highlightText(record.tag, searchText)}
                       </span>
                     </td>
+                    <td className={styles.tableCell}>
+                      <button
+                        className={styles.editButton}
+                        onClick={() => handleEdit(record)}
+                      >
+                        编辑
+                      </button>
+                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={3} className={styles.noDataCell}>
+                  <td colSpan={4} className={styles.noDataCell}>
                     暂无数据
                   </td>
                 </tr>
@@ -248,12 +286,10 @@ const DataTable = () => {
         </div>
       )}
 
-      {/* 分页控件 */}
       <div className={styles.paginationContainer}>
         <span className={styles.pageInfo}>
           显示 {(currentPage - 1) * pageSize + 1} -{' '}
-          {Math.min(currentPage * pageSize, total)} 条， {/* 使用 total 状态 */}
-          共 {total} 条数据
+          {Math.min(currentPage * pageSize, total)} 条，共 {total} 条
         </span>
         <div className={styles.paginationControls}>
           <button

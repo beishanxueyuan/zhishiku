@@ -2,7 +2,7 @@
 .dataTableWrapper {
   background: #fff;
   border-radius: 12px;
-  padding: 24px;
+  padding: 16px; /* 手机上减少内边距 */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   max-width: 1200px;
   margin: 0 auto;
@@ -10,22 +10,22 @@
 
 /* 表单样式 */
 .formContainer {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .addForm {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   flex-wrap: wrap;
 }
 
 .formInput {
-  padding: 10px 12px;
+  padding: 8px 10px;
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   font-size: 14px;
   flex: 1;
-  min-width: 200px;
+  min-width: 0; /* 防止输入框过宽 */
   transition: border-color 0.2s;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .submitButton {
-  padding: 10px 20px;
+  padding: 8px 16px;
   background: #3b82f6;
   color: #fff;
   border: none;
@@ -48,6 +48,21 @@
 
 .submitButton:hover {
   background: #2563eb;
+}
+
+.cancelButton {
+  padding: 8px 16px;
+  background: #6c757d;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancelButton:hover {
+  background: #5a6268;
 }
 
 .successMessage {
@@ -64,7 +79,7 @@
 
 /* 搜索框样式 */
 .searchContainer {
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .searchWrapper {
@@ -78,7 +93,7 @@
 
 .searchInput {
   width: 100%;
-  padding: 12px 16px;
+  padding: 10px 12px;
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   font-size: 14px;
@@ -91,10 +106,6 @@
   border-color: #3b82f6;
   background: #fff;
   box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-}
-
-.searchIcon {
-  display: none; /* 移除输入框内的图标，因为按钮已有图标 */
 }
 
 .searchButton {
@@ -115,7 +126,6 @@
   background: #f9fafb;
   border-color: #d1d5db;
   color: #3b82f6;
-  transform: scale(1.05);
 }
 
 /* 表格样式 */
@@ -132,14 +142,14 @@
   background: #f9fafb;
   color: #1f2937;
   font-weight: 600;
-  padding: 12px 16px;
+  padding: 10px 12px;
   font-size: 14px;
   text-align: left;
   border-bottom: 2px solid #e5e7eb;
 }
 
 .tableCell {
-  padding: 12px 16px;
+  padding: 10px 12px;
   font-size: 14px;
   color: #374151;
   border-bottom: 1px solid #e5e7eb;
@@ -177,14 +187,30 @@
   font-size: 13px;
 }
 
+.editButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.editButton:hover {
+  background-color: #0056b3;
+}
+
 /* 分页样式 */
 .paginationContainer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 24px;
-  padding-top: 16px;
+  margin-top: 20px;
+  padding-top: 12px;
   border-top: 1px solid #e5e7eb;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .pageInfo {
@@ -199,7 +225,7 @@
 
 .paginationButton,
 .pageSelector {
-  padding: 8px 12px;
+  padding: 6px 12px;
   border: 1px solid #e5e7eb;
   border-radius: 6px;
   background: #fff;
@@ -236,4 +262,112 @@
 .loadingText {
   font-size: 16px;
   color: #6b7280;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .dataTableWrapper {
+    padding: 12px; /* 减少内边距 */
+  }
+
+  .addForm {
+    flex-direction: column; /* 手机上表单纵向排列 */
+  }
+
+  .formInput,
+  .submitButton,
+  .cancelButton {
+    width: 100%; /* 占满宽度 */
+  }
+
+  .searchWrapper {
+    max-width: 100%;
+  }
+
+  .dataTable {
+    display: block; /* 表格转为块级元素 */
+  }
+
+  .tableHeaderCell {
+    display: none; /* 隐藏表头 */
+  }
+
+  .tableCell {
+    display: block;
+    padding: 8px 12px;
+    position: relative;
+    border-bottom: none;
+  }
+
+  /* 使用伪元素添加标签 */
+  .tableCell:nth-child(1)::before {
+    content: "标题: ";
+    font-weight: 600;
+    color: #6b7280;
+    margin-right: 8px;
+  }
+
+  .tableCell:nth-child(2)::before {
+    content: "链接: ";
+    font-weight: 600;
+    color: #6b7280;
+    margin-right: 8px;
+  }
+
+  .tableCell:nth-child(3)::before {
+    content: "标签: ";
+    font-weight: 600;
+    color: #6b7280;
+    margin-right: 8px;
+  }
+
+  .tableCell:nth-child(4)::before {
+    content: "操作: ";
+    font-weight: 600;
+    color: #6b7280;
+    margin-right: 8px;
+  }
+
+  .tableCell:not(:last-child) {
+    border-bottom: 1px solid #eee;
+  }
+
+  .paginationContainer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .paginationControls {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .formInput,
+  .submitButton,
+  .cancelButton {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .searchInput {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .searchButton {
+    width: 32px;
+    height: 32px;
+  }
+
+  .tableCell {
+    font-size: 13px;
+  }
+
+  .paginationButton,
+  .pageSelector {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
 }

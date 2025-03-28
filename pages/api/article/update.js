@@ -38,7 +38,7 @@ export default async function handler(req, res) {
     const updateData = {};
     if (title) updateData.Title = title;
     if (url) updateData.URL = url;
-    if (tags) updateData.Tags = Array.isArray(tags) ? tags : tags.split(',').map(tag => tag.trim());
+    if (tags) updateData.Tags = tags;
     updateData.updated_at = new Date().toISOString();
 
     // 更新 Supabase 中的记录

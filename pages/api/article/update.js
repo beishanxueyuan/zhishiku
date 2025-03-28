@@ -6,7 +6,7 @@ const supabaseUrl = 'https://eqxshgzzcasyunvmxxxt.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVxeHNoZ3p6Y2FzeXVudm14eHh0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDA1NjMzMzYsImV4cCI6MjA1NjEzOTMzNn0.FJHaZIkvErVQy96gvjGzYi-Umn4W-yy7wVY1cMymjso';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const EDIT_PASSWORD = "chain00x@0512" // 默认值仅用于测试
+const EDIT_PASSWORD = "chain00x@0512"
 
 export default async function handler(req, res) {
   if (req.method !== 'PUT') {

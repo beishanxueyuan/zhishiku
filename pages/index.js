@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import DataTable from '../components/DataTable';
 import Zhishiyuan from '../components/Zhishiyuan';
 
-// 定义样式组件
+// 定义样式组件（保持不变）
 const SideMenu = styled.div`
   width: ${props => props.$isExpanded ? '250px' : '80px'};
   background-color: #ffffff;
@@ -142,7 +142,7 @@ const MainContainer = styled.main`
   padding: 24px;
 `;
 
-// 定义 SVG 图标组件
+// 定义 SVG 图标组件（保持不变）
 function AboutUsIcon() {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -182,6 +182,48 @@ const HomePage = () => {
   const [isMenuExpanded, setIsMenuExpanded] = useState(true);
   const [activeMenu, setActiveMenu] = useState('home');
   const [renderComponent, setRenderComponent] = useState(<DataTable />);
+
+  // 动态设置 favicon
+  useEffect(() => {
+    const setFavicon = () => {
+      document.title = '知识库';
+      // 移除所有现有的 favicon 链接
+      const existingLinks = document.querySelectorAll("link[rel*='icon'], link[rel*='apple-touch-icon']");
+      existingLinks.forEach(link => link.remove());
+
+      // 创建新的 favicon 链接
+      const link = document.createElement('link');
+      link.type = 'image/x-icon';
+      link.rel = 'shortcut icon';
+      const faviconUrl = `/ico.png?t=${Date.now()}`; // 添加时间戳避免缓存
+      link.href = faviconUrl;
+      document.head.appendChild(link);
+
+      // 同时设置 apple-touch-icon（某些浏览器可能需要）
+      const appleLink = document.createElement('link');
+      appleLink.rel = 'apple-touch-icon';
+      appleLink.href = faviconUrl;
+      document.head.appendChild(appleLink);
+
+      // 调试：检查 favicon 是否可加载
+      const img = new Image();
+      img.src = faviconUrl;
+      img.onload = () => console.log('Favicon loaded successfully:', faviconUrl);
+      img.onerror = (err) => console.error('Failed to load favicon:', faviconUrl, err);
+
+      // 强制浏览器重新加载 favicon
+      const reloadFavicon = () => {
+        const tempLink = document.createElement('link');
+        tempLink.rel = 'icon';
+        tempLink.href = `/ico.png?reload=${Date.now()}`;
+        document.head.appendChild(tempLink);
+        setTimeout(() => tempLink.remove(), 100); // 短暂添加后移除，触发请求
+      };
+      setTimeout(reloadFavicon, 100); // 延迟触发以确保主 favicon 设置完成
+    };
+
+    setFavicon();
+  }, []); // 空依赖数组，确保只在组件挂载时运行一次
 
   const toggleMenu = () => {
     setIsMenuExpanded(!isMenuExpanded);
